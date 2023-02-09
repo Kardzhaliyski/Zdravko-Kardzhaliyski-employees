@@ -1,20 +1,21 @@
-package com.github.kardzhaliyski;
+package com.github.kardzhaliyski.collaboration.app;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        FileReader fileReader = new FileReader("src/main/resources/sample.csv");
+public class CollaborationTimeApplication {
+    public static CollaborationInfo find(Reader csv) throws IOException {
+        BufferedReader in = new BufferedReader(csv);
         CSVFormat build = CSVFormat
                 .Builder
                 .create(CSVFormat.DEFAULT)
@@ -23,9 +24,7 @@ public class Main {
                 .setSkipHeaderRecord(true)
                 .build();
 
-
-        CSVParser parse = build.parse(fileReader);
-
+        CSVParser parse = build.parse(in);
         List<EmployeeRecord> records = new ArrayList<>();
         for (CSVRecord record : parse) {
             records.add(new EmployeeRecord(record));
@@ -33,8 +32,7 @@ public class Main {
 
         DateParser dateParser = new DateParser(records);
         Map<Integer, Employee> employeesMap = parseEmployees(records, dateParser);
-        CollaborationInfo collaborationInfo = findMostCollaborationTimePair(employeesMap);
-        System.out.println("Collaboration between: " + collaborationInfo.employee1.id + " & " + collaborationInfo.employee2.id + " On project: " + collaborationInfo.projectId + " For days: " + collaborationInfo.days);
+        return findMostCollaborationTimePair(employeesMap);
     }
 
     private static CollaborationInfo findMostCollaborationTimePair(Map<Integer, Employee> employeesMap) {

@@ -1,4 +1,4 @@
-package com.github.kardzhaliyski;
+package com.github.kardzhaliyski.collaboration.app;
 
 import java.time.LocalDate;
 

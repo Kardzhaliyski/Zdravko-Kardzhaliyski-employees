@@ -1,4 +1,4 @@
-package com.github.kardzhaliyski;
+package com.github.kardzhaliyski.collaboration.app;
 
 public class CollaborationInfo {
     Employee employee1;
@@ -11,5 +11,21 @@ public class CollaborationInfo {
         this.employee2 = employee2;
         this.projectId = projectId;
         this.days = days;
+    }
+
+    public Employee getEmployee1() {
+        return employee1;
+    }
+
+    public Employee getEmployee2() {
+        return employee2;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public int getDays() {
+        return days;
     }
 }
