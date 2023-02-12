@@ -23,8 +23,12 @@ public class CollaborationController {
     @ResponseBody
     @PostMapping({"/"})
     public CollaborationInfo collaboration(@RequestBody MultipartFile file) throws IOException {
+        if (file == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         String contentType = file.getContentType();
-        if(!contentType.startsWith("text/")) {
+        if(contentType == null || !contentType.startsWith("text/")) {
             throw new ResponseStatusException(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Input should be a type of text.");
         }
 

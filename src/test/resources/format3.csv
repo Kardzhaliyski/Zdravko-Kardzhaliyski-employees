@@ -1,0 +1,6 @@
+EmpID, ProjectID, DateFrom, DateTo
+143, 12, Month: 11 Day: 01 Year: 2013, Month: 01 Day: 05 Year: 2014
+218, 10, Month: 05 Day: 16 Year: 2012, NULL
+143, 10, Month: 01 Day: 01 Year: 2009, Month: 04 Day: 27 Year: 2011
+143, 10, Month: 01 Day: 01 Year: 2015, Month: 01 Day: 30 Year: 2015
+

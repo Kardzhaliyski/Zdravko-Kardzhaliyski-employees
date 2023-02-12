@@ -1,0 +1,6 @@
+EmpID, ProjectID, DateFrom, DateTo
+143, 12, 2013year-11month-01day, 2014year-01month-05day
+218, 10, 2012year-05month-16day, NULL
+143, 10, 2009year-01month-01day, 2011year-04month-27day
+143, 10, 2015year-01month-01day, 2015year-01month-30day
+
