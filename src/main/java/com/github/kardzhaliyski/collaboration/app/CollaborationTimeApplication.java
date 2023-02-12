@@ -1,5 +1,6 @@
 package com.github.kardzhaliyski.collaboration.app;
 
+import com.github.kardzhaliyski.collaboration.exceptions.InvalidDataException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -8,12 +9,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CollaborationTimeApplication {
+    private static final Set<String> MANDATORY_HEADERS = Set.of("EmpID", "ProjectID", "DateFrom", "DateTo");
     public static CollaborationInfo find(Reader csv) throws IOException {
         BufferedReader in = new BufferedReader(csv);
         CSVFormat build = CSVFormat
@@ -25,6 +24,8 @@ public class CollaborationTimeApplication {
                 .build();
 
         CSVParser parse = build.parse(in);
+        validateParse(parse);
+
         List<EmployeeRecord> records = new ArrayList<>();
         for (CSVRecord record : parse) {
             records.add(new EmployeeRecord(record));
@@ -33,6 +34,19 @@ public class CollaborationTimeApplication {
         DateParser dateParser = new DateParser(records);
         Map<Integer, Employee> employeesMap = parseEmployees(records, dateParser);
         return findMostCollaborationTimePair(employeesMap);
+    }
+
+    private static void validateParse(CSVParser parse) {
+        Map<String, Integer> headerMap = parse.getHeaderMap();
+        for (String header : MANDATORY_HEADERS) {
+            if (!headerMap.containsKey(header)) {
+                throw new InvalidDataException("Doesn't contains mandatory headers (EmpID, ProjectID, DateFrom, DateTo)!");
+            }
+        }
+
+        if (!parse.iterator().hasNext()) {
+            throw new InvalidDataException("No elements found.");
+        }
     }
 
     private static CollaborationInfo findMostCollaborationTimePair(Map<Integer, Employee> employeesMap) {
