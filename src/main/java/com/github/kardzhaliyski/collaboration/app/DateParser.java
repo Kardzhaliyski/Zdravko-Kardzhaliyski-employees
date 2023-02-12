@@ -1,5 +1,7 @@
 package com.github.kardzhaliyski.collaboration.app;
 
+import com.github.kardzhaliyski.collaboration.exceptions.InvalidDateFormatException;
+
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.regex.Matcher;
@@ -18,7 +20,7 @@ public class DateParser {
     public LocalDate parse(String date) {
         Matcher matcher = PATTERN.matcher(date);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid date format. For: " + date);
+            throw new InvalidDateFormatException("Invalid date format. For: " + date);
         }
 
         int year = Integer.parseInt(matcher.group(yearIndex));
@@ -32,7 +34,7 @@ public class DateParser {
         for (EmployeeRecord record : records) {
             Matcher matcher = PATTERN.matcher(record.dateFrom);
             if (!matcher.matches()) {
-                throw new IllegalArgumentException("Invalid date format. For: " + record.dateFrom);
+                throw new InvalidDateFormatException("Invalid date format. For: " + record.dateFrom);
             }
 
             for (int i = 1; i <= matcher.groupCount(); i++) {
@@ -59,6 +61,6 @@ public class DateParser {
             }
         }
 
-        throw new IllegalStateException("Could not determinate date pattern.");
+        throw new InvalidDateFormatException("Could not determinate date pattern.");
     }
 }
